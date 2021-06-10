@@ -2,10 +2,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadSafeDemo {
 
-    private static int anInt = 0;
+    private static AtomicInteger anInt = new AtomicInteger();
 
     public static void main(String[] args) {
 
@@ -24,13 +25,13 @@ public class ThreadSafeDemo {
                 e.printStackTrace();
             }
         }
-        System.out.println(anInt);
+        System.out.println(anInt.get());
     }
 
         public static void doSomeHeavyWork() {
             for (int i = 0; i < 10000; i++) {
-                anInt++;
-                System.out.println(Thread.currentThread().getName() + ":" + anInt);
+                anInt.incrementAndGet();
+                System.out.println(Thread.currentThread().getName() + ":" + anInt.get());
 
             }
 
